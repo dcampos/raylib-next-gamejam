@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.19...3.24)
 
+SET(PLATFORM "Desktop" CACHE STRING "")
+
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -13,7 +15,7 @@ set(CMAKE_CXX_EXTENSIONS ON)
 #set(CMAKE_C_EXTENSIONS ON)
 
 # Set the project name to your project name, my project isn't very descriptive
-project(raylib_game
+project(main
         VERSION 0.1.0
         LANGUAGES C CXX)
 
@@ -49,6 +51,7 @@ target_compile_options(raylib PRIVATE $<$<C_COMPILER_ID:GNU,Clang>:-Wno-unused-r
 target_compile_options(raylib PRIVATE $<$<C_COMPILER_ID:GNU>:-Wno-stringop-overflow>)
 target_compile_options(raylib PRIVATE $<$<C_COMPILER_ID:Clang>:-Wno-implicit-const-int-float-conversion>)
 target_compile_features(raylib PRIVATE c_std_99)
+message("PLATFORM value is: ${PLATFORM}")
 if("${PLATFORM}" STREQUAL "Desktop")
     target_compile_features(glfw PRIVATE c_std_99)
 endif()
