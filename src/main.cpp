@@ -38,6 +38,8 @@ int main(void) {
     SetTraceLogLevel(LOG_NONE);
 #endif
 
+    InitAudioDevice();
+
     InitWindow(screenWidth, screenHeight, "Mirror Boats");
 
     game = new Game(screenWidth, screenHeight);

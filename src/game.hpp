@@ -43,6 +43,9 @@ private:
     Texture2D boatTextureFlipped;
     Texture2D mineTexture;
     Texture2D fishTexture, fishTextureFlipped;
+    Sound explosionSound;
+    Sound pickupSound;
+
     std::vector<Mine> mines;
     std::vector<Fish> fish;
 

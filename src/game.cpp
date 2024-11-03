@@ -36,6 +36,9 @@ Game::Game(int screenWidth, int screenHeight)
         UnloadImage(image);
     }
 
+    pickupSound = LoadSound("assets/pickup.wav");
+    explosionSound = LoadSound("assets/explosion.wav");
+
     state = STARTING;
 }
 
@@ -82,7 +85,10 @@ void Game::SpawnFish() {
 
 void Game::SpawnMine() {
     int x = randomNumber(20, screenWidth - 20);
-    int r = randomNumber(1, 6); // Avoid boats for starting mine
+    int r;
+    do {
+        r = randomNumber(0, 7); // Avoid boats for starting mine
+    } while (boat1.ray == r || boat2.ray == r);
     Mine m = { .ray = r, .x = (float)x };
     mines.push_back(m);
 }
@@ -107,6 +113,7 @@ void Game::CheckCollision() {
             IncreaseScore();
             SpawnFish();
             SpawnMine();
+            PlaySound(pickupSound);
         }
     }
 
@@ -122,6 +129,7 @@ void Game::CheckCollision() {
             }
         }
         if (collided) {
+            PlaySound(explosionSound);
             Finish();
         }
     }
@@ -286,4 +294,8 @@ Game::~Game() {
     UnloadTexture(boatTexture);
     UnloadTexture(boatTextureFlipped);
     UnloadTexture(mineTexture);
+    UnloadTexture(fishTexture);
+    UnloadTexture(fishTextureFlipped);
+    UnloadSound(pickupSound);
+    UnloadSound(explosionSound);
 }

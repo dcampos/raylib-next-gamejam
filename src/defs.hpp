@@ -31,7 +31,7 @@
 #define WAVE_SPEED 80
 #define BOAT_WIDTH 80
 #define FISH_WIDTH 80
-#define MINE_WIDTH 80
+#define MINE_WIDTH 60
 #define NUM_WAVES 10
 
 #endif
