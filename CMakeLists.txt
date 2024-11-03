@@ -6,7 +6,7 @@ SET(PLATFORM "Desktop" CACHE STRING "")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Not ideal to use this global variable, but necessary to make sure that tooling and projects use the same version
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 # set(CMAKE_C_STANDARD 99)
 
 # strongly encouraged to enable this globally to avoid conflicts between -Wpedantic being enabled and -std=c++20 and -std=gnu++20 for

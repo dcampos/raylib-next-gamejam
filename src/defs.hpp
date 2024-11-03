@@ -25,10 +25,13 @@
 #endif
 
 #define WAVE_HEIGHT 55
-#define WAVE_OFFSET 25
+#define WAVE_WIDTH 50
+#define WAVE_OFFSET 30
 #define MAX_OFFSET 400
 #define WAVE_SPEED 80
 #define BOAT_WIDTH 80
+#define FISH_WIDTH 80
+#define MINE_WIDTH 80
 #define NUM_WAVES 10
 
 #endif

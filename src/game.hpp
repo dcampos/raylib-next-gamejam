@@ -14,12 +14,21 @@ struct Boat {
 struct Mine {
     int ray;
     float x;
+    float y;
 };
 
 struct Fish {
     int ray;
     float x;
+    float y;
     float speed;
+};
+
+enum GameState {
+    STARTING,
+    RUNNING,
+    PAUSED,
+    OVER
 };
 
 class Game {
@@ -29,10 +38,11 @@ private:
 
     RenderTexture2D target;
     Texture2D wavesTexture;
+    Texture2D waveTexture;
     Texture2D boatTexture;
     Texture2D boatTextureFlipped;
     Texture2D mineTexture;
-    Texture2D fishTexture;
+    Texture2D fishTexture, fishTextureFlipped;
     std::vector<Mine> mines;
     std::vector<Fish> fish;
 
@@ -44,9 +54,21 @@ private:
 
     Boat boat1, boat2;
 
+    GameState state;
+    int score;
+
+    float blinkTimer = 0;
+
 public:
     Game(int screenWidth, int screenHeight);
     ~Game();
+    void Reset();
+    void IncreaseScore();
+    void Finish();
+    void SpawnFish();
+    void SpawnMine();
+    void CheckCollision();
+    void UpdateGame(float delta);
     void UpdateDrawFrame();
 };
 
