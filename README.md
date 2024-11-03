@@ -1,16 +1,18 @@
-## $(Game Title)
+## Mirror Boats
 
-![$(Mirror Boats)](screenshots/screenshot000.png "$(Mirror Boats)")
+![Mirror Boats](screenshots/screenshot000.png "Mirror Boats")
 
 ### Description
 
 A game where you control two mirrored boats and collect fish, avoiding mines.
 
+Made for the raylib NEXT gamejam, but I wasn't able to submit on time.
+
 ### Features
 
- - $(Project Feature 01)
- - $(Project Feature 02)
- - $(Project Feature 03)
+ - Made in C++ with raylib
+ - Graphics made with Inkscape
+ - Sound effects made with rFXGen
 
 ### Controls
 
@@ -21,7 +23,7 @@ Keyboard:
 
 ### Links
 
- - itch.io Release: $(itch.io Game Page)
+ - itch.io Release: [Mirror Boats](https://dcampos.itch.io/mirror-boats)
 
 ### License
 

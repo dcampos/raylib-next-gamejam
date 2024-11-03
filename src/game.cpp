@@ -300,6 +300,12 @@ void Game::UpdateDrawFrame(void) {
     }
 
     EndDrawing();
+
+    if (IsKeyPressed(KEY_S)) {
+        static int number = 0;
+        std::string fname = "screenshot_" + std::to_string(++number) + ".png";
+        TakeScreenshot(fname.c_str());
+    }
 }
 
 void Game::LoadScore() {
