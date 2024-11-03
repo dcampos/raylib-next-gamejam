@@ -58,7 +58,8 @@ private:
     Boat boat1, boat2;
 
     GameState state;
-    int score;
+    int score = 0;
+    int bestScore = 0;
 
     float blinkTimer = 0;
 
@@ -73,6 +74,8 @@ public:
     void CheckCollision();
     void UpdateGame(float delta);
     void UpdateDrawFrame();
+    void SaveScore();
+    void LoadScore();
 };
 
 #endif // GAME_H

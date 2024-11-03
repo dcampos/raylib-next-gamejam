@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -39,10 +40,15 @@ Game::Game(int screenWidth, int screenHeight)
     pickupSound = LoadSound("assets/pickup.wav");
     explosionSound = LoadSound("assets/explosion.wav");
 
+    LoadScore();
+    std::cout << "best score: " << bestScore << std::endl;
+
     state = STARTING;
 }
 
 void Game::Reset() {
+    bestScore = score > bestScore ? score : bestScore;
+
     state = RUNNING;
     score = 0;
 
@@ -72,6 +78,7 @@ void Game::IncreaseScore() {
 
 void Game::Finish() {
     state = OVER;
+    SaveScore();
 }
 
 void Game::SpawnFish() {
@@ -87,7 +94,8 @@ void Game::SpawnMine() {
     int x = randomNumber(20, screenWidth - 20);
     int r;
     do {
-        r = randomNumber(0, 7); // Avoid boats for starting mine
+        r = randomNumber(0, 7);
+        // Avoid starting on the same ray as a boat
     } while (boat1.ray == r || boat2.ray == r);
     Mine m = { .ray = r, .x = (float)x };
     mines.push_back(m);
@@ -197,7 +205,7 @@ void Game::UpdateDrawFrame(void) {
 
         int x = i % 2 == 0 ? -offset : offset - MAX_OFFSET;
         Color color = i % 2 == 0 ? Blue2 : Blue1;
-        // DrawTexture(wavesTexture, x, i * WAVE_HEIGHT + WAVE_OFFSET, color);
+
         int limit = screenWidth / WAVE_WIDTH + MAX_OFFSET;
         for (int j = 0; j < limit; j++) {
             DrawTexture(waveTexture, x + (j * WAVE_WIDTH), i * WAVE_HEIGHT + WAVE_OFFSET, color);
@@ -223,7 +231,7 @@ void Game::UpdateDrawFrame(void) {
         for (Fish f: fish) {
             auto texture = f.speed > 0 ? fishTextureFlipped : fishTexture;
             if (f.ray == i) {
-                DrawTexture(texture, f.x, (f.ray + 1) * WAVE_HEIGHT, tint);
+                DrawTexture(texture, f.x, (f.ray + 1) * WAVE_HEIGHT + 5, tint);
             }
         }
     }
@@ -266,6 +274,13 @@ void Game::UpdateDrawFrame(void) {
         DrawText(gameOverText.c_str(), screenWidth / 2.f - textWidth / 2, ry + 10, 38, WHITE);
 
         std::string scoreText = "Score: " + std::to_string(score);
+#if not defined(PLATFORM_WEB)
+        if (score > bestScore) {
+            scoreText += " *NEW BEST*";
+        } else {
+            scoreText += " | Best: " + std::to_string(bestScore);
+        }
+#endif
         textWidth = MeasureText(scoreText.c_str(), 28);
         DrawText(scoreText.c_str(), screenWidth / 2.f - textWidth / 2, ry + screenHeight / 2.f - 35, 28, WHITE);
 
@@ -287,6 +302,19 @@ void Game::UpdateDrawFrame(void) {
     EndDrawing();
 }
 
+void Game::LoadScore() {
+    int bytesRead;
+    unsigned char* data = LoadFileData("save.dat", &bytesRead);
+    if (bytesRead == sizeof(int)) {
+        bestScore = *(int*)data;
+    }
+    UnloadFileData(data);
+}
+
+void Game::SaveScore() {
+    int saveScore = std::max(bestScore, score);
+    SaveFileData("save.dat", &bestScore, sizeof(int));
+}
 
 Game::~Game() {
     UnloadRenderTexture(target);
